@@ -1,6 +1,11 @@
 const { DateTime } = require('luxon')
+const argv = require('minimist')(process.argv.slice(2))
+let year = argv.y
+let month = argv.m
+if (year === undefined) year = DateTime.local().year
+if (month === undefined) month = DateTime.local().month
 
-const date = DateTime.local(2022, 10)
+const date = DateTime.local(year, month)
 const firstDay = date.startOf('month')
 const lastDay = date.endOf('month')
 const dayMargin = 3
