@@ -1,9 +1,8 @@
 const { DateTime } = require('luxon')
 const argv = require('minimist')(process.argv.slice(2))
-let year = argv.y
-let month = argv.m
-if (year === undefined) year = DateTime.local().year
-if (month === undefined) month = DateTime.local().month
+
+const year = (argv.y || DateTime.local().year)
+const month = (argv.m || DateTime.local().month)
 
 const date = DateTime.local(year, month)
 const firstDay = date.startOf('month')
@@ -12,7 +11,6 @@ const dayMargin = 3
 
 const yearAndMonth = date.toFormat('      M月 yyyy')
 console.log(yearAndMonth)
-
 console.log('日 月 火 水 木 金 土')
 
 if (firstDay.weekday !== 7) process.stdout.write(' '.repeat(dayMargin * firstDay.weekday))
