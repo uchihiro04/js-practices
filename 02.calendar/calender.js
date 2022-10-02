@@ -7,10 +7,10 @@ const month = (argv.m || DateTime.local().month)
 const date = DateTime.local(year, month)
 const firstDay = date.startOf('month')
 const lastDay = date.endOf('month')
+
 const dayMargin = 3
 
-const yearAndMonth = date.toFormat('      M月 yyyy')
-console.log(yearAndMonth)
+console.log(date.toFormat('      M月 yyyy'))
 console.log('日 月 火 水 木 金 土')
 
 if (firstDay.weekday !== 7) process.stdout.write(' '.repeat(dayMargin * firstDay.weekday))
