@@ -18,6 +18,6 @@ if (firstDay.weekday !== 7) process.stdout.write(' '.repeat(dayMargin * firstDay
 for (let day = firstDay.day; day <= lastDay.day; day++) {
   const dayOfWeek = firstDay.plus({ days: day - 1 }).weekday
   process.stdout.write(day.toString().padStart(2) + ' ')
-  if (dayOfWeek === 6) process.stdout.write('\n')
+  if (dayOfWeek === 6 && day !== lastDay.day) process.stdout.write('\n')
   if (day === lastDay.day) process.stdout.write('\n\n')
 }
