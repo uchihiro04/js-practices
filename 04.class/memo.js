@@ -1,13 +1,27 @@
 #! /usr/bin/env node
 
 const fs = require("fs");
+const argv = require("minimist")(process.argv.slice(2));
 const jsonPath = "db/memo.json";
 
-if (!fs.existsSync(jsonPath)) {
-  fs.writeFileSync(jsonPath, '{"memos": []}');
+const memosText = readMemo();
+if (argv.l) {
+  const memos = memosText.memos;
+  for (let number in memos) {
+    const memoArray = memos[number].memo.split("\n");
+    console.log(memoArray[0]);
+  }
+} else {
+  createMemo();
 }
-const jsonFile = fs.readFileSync(jsonPath, "utf-8");
-const memosText = JSON.parse(jsonFile);
+
+function readMemo() {
+  if (!fs.existsSync(jsonPath)) {
+    fs.writeFileSync(jsonPath, '{"memos": []}');
+  }
+  const jsonFile = fs.readFileSync(jsonPath, "utf-8");
+  return JSON.parse(jsonFile);
+}
 
 function createMemo() {
   process.stdin.setEncoding("utf8");
@@ -22,6 +36,7 @@ function createMemo() {
   });
 
   reader.on("close", () => {
+    const memosText = readMemo();
     memoText.memo = lines.join("\n");
     memosText.memos.push(memoText);
     writeMemo(memosText);
@@ -35,5 +50,3 @@ function writeMemo(memosText) {
     console.log("---書き込みが完了しました---");
   });
 }
-
-createMemo();
