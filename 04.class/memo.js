@@ -6,13 +6,17 @@ const jsonPath = "db/memo.json";
 
 const memosText = readMemo();
 if (argv.l) {
+  allMemo();
+} else {
+  createMemo();
+}
+
+function allMemo() {
   const memos = memosText.memos;
   for (let number in memos) {
     const memoArray = memos[number].memo.split("\n");
     console.log(memoArray[0]);
   }
-} else {
-  createMemo();
 }
 
 function readMemo() {
