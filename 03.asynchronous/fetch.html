@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>非同期処理の課題</title>
+  </head>
+
+  <body>
+    <p>これは非同期処理の課題に関するページです</p>
+    <script>
+      async function receiveApi() {
+        const fjordApi = await fetch("https://bootcamp.fjord.jp");
+        const topPage = await fjordApi.text();
+        console.log(topPage);
+      }
+
+      receiveApi();
+    </script>
+  </body>
+</html>
