@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "enquirer": "^2.3.6",
-    "minimist": "^1.2.7"
+    "minimist": "^1.2.7",
+    "uuid": "^9.0.0"
   }
 }
