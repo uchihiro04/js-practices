@@ -63,29 +63,37 @@ function writeMemo(memosText) {
 }
 
 function referenceMemo() {
-  const { Select } = require("enquirer");
+  const { prompt } = require("enquirer");
   const choices = [];
   const memos = memosText.memos;
   memos.forEach((memo) => {
     const choice = {};
-    choice.name = memo.memo;
+    choice.name = memo.firstLine;
     choice.value = memo.id;
     choice.message = memo.firstLine;
     choices.push(choice);
   });
 
-  const prompt = new Select({
-    name: "id",
-    message: "Choose a note you want to see:",
-    choices: choices,
-  });
-  prompt
-    .run()
-    .then((answer) => console.log(answer))
-    .catch(console.error);
+  (async function () {
+    const questions = [
+      {
+        type: "select",
+        name: "id",
+        message: "Choose a note you want to see:",
+        choices: choices,
+        result() {
+          return this.focused.value;
+        },
+      },
+    ];
+    const answers = await prompt(questions);
+    const memo = memos.find((memo) => memo.id === answers.id);
+    console.log(memo.memo);
+  })();
 }
 
 function deleteMemo() {
+  const { prompt } = require("enquirer");
   const choices = [];
   const memos = memosText.memos;
 
@@ -97,7 +105,6 @@ function deleteMemo() {
     choices.push(choice);
   });
 
-  const { prompt } = require("enquirer");
   (async function () {
     const questions = [
       {
