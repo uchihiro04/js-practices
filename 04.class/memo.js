@@ -37,18 +37,19 @@ function createMemo() {
   const reader = require("readline").createInterface({
     input: process.stdin,
   });
-  const lines = [];
-  const memoText = {};
 
+  const lines = [];
   reader.on("line", (line) => {
     lines.push(line);
   });
 
   reader.on("close", () => {
     const memosText = readMemo();
-    memoText.id = uuidv4();
-    memoText.firstLine = lines[0];
-    memoText.memo = lines.join("\n");
+    const memoText = {
+      id: uuidv4(),
+      firstLine: lines[0],
+      memo: lines.join("\n"),
+    };
     memosText.memos.push(memoText);
     writeMemo(memosText);
     console.log("---書き込みが完了しました---");
