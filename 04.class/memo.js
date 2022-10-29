@@ -39,19 +39,20 @@ function createMemo() {
   });
 
   const lines = [];
+
   reader.on("line", (line) => {
     lines.push(line);
   });
 
   reader.on("close", () => {
-    const memosText = readMemo();
-    const memoText = {
+    const allMemo = readMemo();
+    const memo = {
       id: uuidv4(),
       firstLine: lines[0],
       memo: lines.join("\n"),
     };
-    memosText.memos.push(memoText);
-    writeMemo(memosText);
+    allMemo.memos.push(memo);
+    writeMemo(allMemo);
     console.log("---書き込みが完了しました---");
   });
 }
