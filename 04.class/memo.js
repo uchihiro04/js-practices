@@ -62,30 +62,41 @@ function writeMemo(memosText) {
   });
 }
 
-function referenceMemo() {
-  const { prompt } = require("enquirer");
+function createChoices() {
   const choices = [];
   const memos = memosText.memos;
   memos.forEach((memo) => {
-    const choice = {};
-    choice.name = memo.firstLine;
-    choice.value = memo.id;
-    choice.message = memo.firstLine;
+    const choice = {
+      name: memo.firstLine,
+      value: memo.id,
+      message: memo.firstLine,
+    };
     choices.push(choice);
   });
+  return choices;
+}
+
+function createQuestions() {
+  const questions = [
+    {
+      type: "select",
+      name: "id",
+      message: "Choose a note you want to see:",
+      choices: createChoices(),
+      result() {
+        return this.focused.value;
+      },
+    },
+  ];
+  return questions;
+}
+
+function referenceMemo() {
+  const { prompt } = require("enquirer");
+  const memos = memosText.memos;
 
   (async function () {
-    const questions = [
-      {
-        type: "select",
-        name: "id",
-        message: "Choose a note you want to see:",
-        choices: choices,
-        result() {
-          return this.focused.value;
-        },
-      },
-    ];
+    const questions = createQuestions();
     const answers = await prompt(questions);
     const memo = memos.find((memo) => memo.id === answers.id);
     console.log(memo.memo);
@@ -94,29 +105,10 @@ function referenceMemo() {
 
 function deleteMemo() {
   const { prompt } = require("enquirer");
-  const choices = [];
   const memos = memosText.memos;
 
-  memos.forEach((memo) => {
-    const choice = {};
-    choice.name = memo.firstLine;
-    choice.value = memo.id;
-    choice.message = memo.firstLine;
-    choices.push(choice);
-  });
-
   (async function () {
-    const questions = [
-      {
-        type: "select",
-        name: "id",
-        message: "Choose a note you want to delete:",
-        choices: choices,
-        result() {
-          return this.focused.value;
-        },
-      },
-    ];
+    const questions = createQuestions();
     let answers = await prompt(questions);
     const deletedMemos = memos.filter((memo) => {
       return memo.id !== answers.id;
