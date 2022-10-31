@@ -17,7 +17,7 @@ if (argv.l) {
 }
 
 function allMemo() {
-  const memos = memosText.memos;
+  const memos = memosText.memoslist;
   memos.forEach((memo) => {
     console.log(memo.firstLine);
   });
@@ -25,7 +25,7 @@ function allMemo() {
 
 function readMemo() {
   if (!fs.existsSync(jsonPath)) {
-    fs.writeFileSync(jsonPath, '{"memos": []}');
+    fs.writeFileSync(jsonPath, '{"memoslist": []}');
   }
   const jsonFile = fs.readFileSync(jsonPath, "utf-8");
   return JSON.parse(jsonFile);
@@ -47,9 +47,9 @@ function createMemo() {
     const memo = {
       id: uuidv4(),
       firstLine: lines[0],
-      memo: lines.join("\n"),
+      body: lines.join("\n"),
     };
-    allMemo.memos.push(memo);
+    allMemo.memoslist.push(memo);
     writeMemo(allMemo);
     console.log("---書き込みが完了しました---");
   });
@@ -64,7 +64,7 @@ function writeMemo(memosText) {
 
 function createChoices() {
   const choices = [];
-  const memos = memosText.memos;
+  const memos = memosText.memoslist;
   memos.forEach((memo) => {
     const choice = {
       name: memo.firstLine,
@@ -93,19 +93,19 @@ function createQuestions() {
 
 function referenceMemo() {
   const { prompt } = require("enquirer");
-  const memos = memosText.memos;
+  const memos = memosText.memoslist;
 
   (async function () {
     const questions = createQuestions();
     const answers = await prompt(questions);
     const memo = memos.find((memo) => memo.id === answers.id);
-    console.log(memo.memo);
+    console.log(memo.body);
   })();
 }
 
 function deleteMemo() {
   const { prompt } = require("enquirer");
-  const memos = memosText.memos;
+  const memos = memosText.memoslist;
 
   (async function () {
     const questions = createQuestions();
@@ -113,7 +113,7 @@ function deleteMemo() {
     const deletedMemos = memos.filter((memo) => {
       return memo.id !== answers.id;
     });
-    memosText.memos = deletedMemos;
+    memosText.memoslist = deletedMemos;
     writeMemo(memosText);
   })();
 }
