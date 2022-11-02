@@ -26,7 +26,7 @@ class MemoController {
 
   index() {
     const memos = this.memos.read().memoslist;
-    if (memos.length === 0) {
+    if (!memos.length) {
       console.log("---メモがありません---");
       return;
     }
@@ -68,43 +68,33 @@ class MemoController {
     });
   }
 
-  reference() {
+  async reference() {
     const { prompt } = require("enquirer");
     const memos = this.memos.read().memoslist;
     const questions = this.createQuestions(memos);
-    if (typeof questions.choices === "undefined") {
+    if (!memos.length) {
       console.log("---メモがありません---");
       return;
     }
-
-    (async function () {
-      const answers = await prompt(questions);
-      const memo = memos.find((memo) => memo.id === answers.id);
-      console.log(memo.body);
-    })();
+    const answers = await prompt(questions);
+    const memo = memos.find((memo) => memo.id === answers.id);
+    console.log(memo.body);
   }
 
-  delete() {
+  async delete() {
     const { prompt } = require("enquirer");
     const memos = this.memos.read();
     const questions = this.createQuestions(memos.memoslist);
-    if (typeof questions.choices === "undefined") {
+    if (!memos.memoslist.length) {
       console.log("---メモがありません---");
       return;
     }
-
-    async function deleteMemo() {
-      const answers = await prompt(questions);
-      const undeletedMemos = memos.memoslist.filter((memo) => {
-        return memo.id !== answers.id;
-      });
-      memos.memoslist = undeletedMemos;
-      return memos;
-    }
-
-    deleteMemo().then((memos) => {
-      this.memos.write(memos);
+    const answers = await prompt(questions);
+    const undeletedMemos = memos.memoslist.filter((memo) => {
+      return memo.id !== answers.id;
     });
+    memos.memoslist = undeletedMemos;
+    this.memos.write(memos);
   }
 
   createChoices(memos) {
