@@ -26,6 +26,10 @@ class MemoController {
 
   index() {
     const memos = this.memos.read().memoslist;
+    if (memos.length === 0) {
+      console.log("---メモがありません---");
+      return;
+    }
     const firstLines = [];
     memos.forEach((memo) => {
       firstLines.push(memo.firstLine);
@@ -52,6 +56,12 @@ class MemoController {
         firstLine: lines[0],
         body: lines.join("\n"),
       };
+
+      if (!memo.body.match(/\S/g)) {
+        console.log("--文字を入力してください--");
+        return;
+      }
+
       memos.memoslist.push(memo);
       this.memos.write(memos);
       console.log("---メモを追加しました---");
@@ -62,6 +72,10 @@ class MemoController {
     const { prompt } = require("enquirer");
     const memos = this.memos.read().memoslist;
     const questions = this.createQuestions(memos);
+    if (typeof questions.choices === "undefined") {
+      console.log("---メモがありません---");
+      return;
+    }
 
     (async function () {
       const answers = await prompt(questions);
@@ -74,6 +88,10 @@ class MemoController {
     const { prompt } = require("enquirer");
     const memos = this.memos.read();
     const questions = this.createQuestions(memos.memoslist);
+    if (typeof questions.choices === "undefined") {
+      console.log("---メモがありません---");
+      return;
+    }
 
     async function deleteMemo() {
       const answers = await prompt(questions);
@@ -126,7 +144,7 @@ class MemoData {
   read() {
     const fs = require("fs");
     if (!fs.existsSync(this.path)) {
-      fs.writeFileSync(this.path, '{"memos": []}');
+      fs.writeFileSync(this.path, '{"memoslist": []}');
     }
     const jsonFile = fs.readFileSync(this.path, "utf-8");
     return JSON.parse(jsonFile);
