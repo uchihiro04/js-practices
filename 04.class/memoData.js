@@ -1,10 +1,11 @@
+const fs = require("fs");
+
 module.exports = class MemoData {
   constructor() {
     this.path = "db/memo.json";
   }
 
   read() {
-    const fs = require("fs");
     if (!fs.existsSync(this.path)) {
       fs.writeFileSync(this.path, '{"memoslist": []}');
     }
@@ -13,7 +14,6 @@ module.exports = class MemoData {
   }
 
   write(memos) {
-    const fs = require("fs");
     const jsonMemos = JSON.stringify(memos, null, 2);
     fs.writeFile(this.path, jsonMemos, (err) => {
       if (err) throw err;

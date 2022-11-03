@@ -1,4 +1,6 @@
 const memoData = require("./memoData.js");
+const { v4: uuidv4 } = require("uuid");
+const { prompt } = require("enquirer");
 
 module.exports = class MemoController {
   constructor() {
@@ -7,6 +9,7 @@ module.exports = class MemoController {
 
   index() {
     const memos = this.memos.read().memoslist;
+
     if (!memos.length) {
       console.log("---メモがありません---");
       return;
@@ -19,7 +22,6 @@ module.exports = class MemoController {
   }
 
   create() {
-    const { v4: uuidv4 } = require("uuid");
     process.stdin.setEncoding("utf8");
     const reader = require("readline").createInterface({
       input: process.stdin,
@@ -42,7 +44,6 @@ module.exports = class MemoController {
         console.log("--文字を入力してください--");
         return;
       }
-
       memos.memoslist.push(memo);
       this.memos.write(memos);
       console.log("---メモを追加しました---");
@@ -50,9 +51,9 @@ module.exports = class MemoController {
   }
 
   async reference() {
-    const { prompt } = require("enquirer");
     const memos = this.memos.read().memoslist;
     const questions = this.#createQuestions(memos);
+
     if (!memos.length) {
       console.log("---メモがありません---");
       return;
@@ -63,9 +64,9 @@ module.exports = class MemoController {
   }
 
   async delete() {
-    const { prompt } = require("enquirer");
     const memos = this.memos.read();
     const questions = this.#createQuestions(memos.memoslist);
+
     if (!memos.memoslist.length) {
       console.log("---メモがありません---");
       return;
