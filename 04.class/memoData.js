@@ -14,7 +14,7 @@ module.exports = class MemoData {
 
   write(memos) {
     const fs = require("fs");
-    const jsonMemos = JSON.stringify(memos);
+    const jsonMemos = JSON.stringify(memos, null, 2);
     fs.writeFile(this.path, jsonMemos, (err) => {
       if (err) throw err;
     });
