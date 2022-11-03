@@ -52,7 +52,7 @@ module.exports = class MemoController {
   async reference() {
     const { prompt } = require("enquirer");
     const memos = this.memos.read().memoslist;
-    const questions = this.createQuestions(memos);
+    const questions = this.#createQuestions(memos);
     if (!memos.length) {
       console.log("---メモがありません---");
       return;
@@ -65,7 +65,7 @@ module.exports = class MemoController {
   async delete() {
     const { prompt } = require("enquirer");
     const memos = this.memos.read();
-    const questions = this.createQuestions(memos.memoslist);
+    const questions = this.#createQuestions(memos.memoslist);
     if (!memos.memoslist.length) {
       console.log("---メモがありません---");
       return;
@@ -78,7 +78,7 @@ module.exports = class MemoController {
     this.memos.write(memos);
   }
 
-  createChoices(memos) {
+  #createChoices(memos) {
     const choices = [];
     memos.forEach((memo) => {
       const choice = {
@@ -91,13 +91,13 @@ module.exports = class MemoController {
     return choices;
   }
 
-  createQuestions(memos) {
+  #createQuestions(memos) {
     const questions = [
       {
         type: "select",
         name: "id",
         message: "Choose a note you want to see:",
-        choices: this.createChoices(memos),
+        choices: this.#createChoices(memos),
         result() {
           return this.focused.value;
         },
