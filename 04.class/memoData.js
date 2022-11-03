@@ -1,6 +1,4 @@
-module.exports = MemoData;
-
-class MemoData {
+module.exports = class MemoData {
   constructor() {
     this.path = "db/memo.json";
   }
@@ -21,4 +19,4 @@ class MemoData {
       if (err) throw err;
     });
   }
-}
+};

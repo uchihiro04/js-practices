@@ -1,7 +1,6 @@
 const memoController = require("./memoController.js");
-module.exports = Command;
 
-class Command {
+module.exports = class Command {
   constructor(option) {
     this.option = option;
   }
@@ -18,4 +17,4 @@ class Command {
     }
     return new memoController().create();
   }
-}
+};

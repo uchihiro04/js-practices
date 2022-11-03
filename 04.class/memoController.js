@@ -1,8 +1,6 @@
-module.exports = MemoController;
-
 const memoData = require("./memoData.js");
 
-class MemoController {
+module.exports = class MemoController {
   constructor() {
     this.memos = new memoData();
   }
@@ -107,4 +105,4 @@ class MemoController {
     ];
     return questions;
   }
-}
+};
