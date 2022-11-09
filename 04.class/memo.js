@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const command = require("./command.js");
+const Command = require("./command.js");
 
 const argv = require("minimist")(process.argv.slice(2));
-new command(argv).runMemo();
+new Command(argv).runMemo();

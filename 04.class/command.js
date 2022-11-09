@@ -1,4 +1,4 @@
-const memoController = require("./memoController.js");
+const MemoController = require("./memoController.js");
 
 module.exports = class Command {
   constructor(option) {
@@ -7,14 +7,14 @@ module.exports = class Command {
 
   runMemo() {
     if (this.option.l) {
-      return new memoController().index();
+      return new MemoController().index();
     }
     if (this.option.r) {
-      return new memoController().reference();
+      return new MemoController().reference();
     }
     if (this.option.d) {
-      return new memoController().delete();
+      return new MemoController().delete();
     }
-    return new memoController().create();
+    return new MemoController().create();
   }
 };

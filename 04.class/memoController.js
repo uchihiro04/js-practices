@@ -1,10 +1,10 @@
-const memoData = require("./memoData.js");
+const MemoData = require("./memoData.js");
 const { v4: uuidv4 } = require("uuid");
 const { prompt } = require("enquirer");
 
 module.exports = class MemoController {
   constructor() {
-    this.memos = new memoData();
+    this.memos = new MemoData();
   }
 
   index() {
