@@ -7,7 +7,7 @@ module.exports = class MemoController {
     this.memos = new MemoData();
   }
 
-  index() {
+  list() {
     const memos = this.memos.read().memoslist;
 
     if (!memos.length) {

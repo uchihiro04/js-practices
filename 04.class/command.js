@@ -7,7 +7,7 @@ module.exports = class Command {
 
   runMemo() {
     if (this.option.l) {
-      return new MemoController().index();
+      return new MemoController().list();
     }
     if (this.option.r) {
       return new MemoController().reference();
