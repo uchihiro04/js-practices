@@ -7,7 +7,7 @@ module.exports = class MemoData {
 
   read() {
     if (!fs.existsSync(this.path)) {
-      fs.writeFileSync(this.path, '{"memoslist": []}');
+      return { memoslist: [] };
     }
     const jsonFile = fs.readFileSync(this.path, "utf-8");
     return JSON.parse(jsonFile);
