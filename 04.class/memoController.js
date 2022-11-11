@@ -14,10 +14,7 @@ module.exports = class MemoController {
       console.log("---メモがありません---");
       return;
     }
-    const firstLines = [];
-    memos.forEach((memo) => {
-      firstLines.push(memo.firstLine);
-    });
+    const firstLines = memos.map((memo) => memo.firstLine);
     console.log(firstLines.join("\n"));
   }
 
@@ -80,15 +77,15 @@ module.exports = class MemoController {
   }
 
   #createChoices(memos) {
-    const choices = [];
-    memos.forEach((memo) => {
+    const choices = memos.map((memo) => {
       const choice = {
         name: memo.firstLine,
         value: memo.id,
         message: memo.firstLine,
       };
-      choices.push(choice);
+      return choice;
     });
+
     return choices;
   }
 
